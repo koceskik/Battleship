@@ -40,7 +40,7 @@ public class BattleshipServer extends Thread {
 	@Override
 	public void run() {
 		//get clients, setup ClientHandlers
-		while(playerList.size() < 2) {
+		while(playerList.size() < PLAYER_TOTAL) {
 			try {
 				Socket s = server.accept();
 				ClientHandler ch = new ClientHandler(s);
@@ -56,7 +56,6 @@ public class BattleshipServer extends Thread {
 		for(int i = 0;i<PLAYER_TOTAL;i++) {
 			ClientHandler ch = playerList.get(i);
 			ch.send(g.players.get(i));
-			ch.send(g);
 		}
 	}
 
