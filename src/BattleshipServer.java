@@ -90,8 +90,14 @@ public class BattleshipServer extends Thread {
 			public void run() {
 				try {
 					while(true) {
-						Move move = (Move) ois.readObject();
-						g.applyMove(move);//handles legal checks
+						Object recv = ois.readObject();
+						if(recv instanceof Move) {
+							Move move = (Move) ois.readObject();
+							g.applyMove(move);//handles legal checks
+						}
+						else if(recv instanceof Player) {
+							g.updatePlayer((Player) recv);
+						}
 						
 						for(ClientHandler ch : playerList) {
 							if(ch == null) {
