@@ -11,7 +11,7 @@ import java.util.Collections;
 public class BattleshipServer extends Thread {
 	private final int PLAYER_TOTAL = 2;
 	private Game g = null;
-	private final int port = 3355;
+	private final int port = 5533;
 	private ServerSocket server = null;
 	private ArrayList<ClientHandler> playerList = new ArrayList<ClientHandler>();
 
