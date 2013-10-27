@@ -21,5 +21,4 @@ public class Player {
 	public boolean equals(Player p) {
 		return this.id.equals(p.id);
 	}
-
 }

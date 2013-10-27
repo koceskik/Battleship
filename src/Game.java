@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.UUID;
 
-
 public class Game {
 	public ArrayList<Player> players = new ArrayList<Player>();
 	public ArrayList<Boolean> updatedPlayers = new ArrayList<Boolean>();
