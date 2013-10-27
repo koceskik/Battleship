@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-
 public class Player {
 	private Ship patrolBoat = new PatrolBoat();
 	private Ship destroyer = new Destroyer();
