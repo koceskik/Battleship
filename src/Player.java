@@ -1,7 +1,10 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Player {
+public class Player implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private Ship patrolBoat = new PatrolBoat();
 	private Ship destroyer = new Destroyer();
 	private Ship submarine = new Submarine();

@@ -1,4 +1,8 @@
-public abstract class Ship {
+import java.io.Serializable;
+
+public abstract class Ship implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	int size;
 	int x;
 	int y;
