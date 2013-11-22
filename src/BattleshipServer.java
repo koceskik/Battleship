@@ -89,6 +89,11 @@ public class BattleshipServer extends Thread {
 			@Override
 			public void run() {
 				try {
+					Player p = (Player) ois.readObject();
+					g.updatePlayer(p);//updates player ship placement
+					if(g.isAllPlayersReady()) {
+						playerList.send(Move.YOUR_TURN);
+					}
 					while(true) {
 						Object recv = ois.readObject();
 						if(recv instanceof Move) {
@@ -105,7 +110,7 @@ public class BattleshipServer extends Thread {
 							}
 						}
 						else if(recv instanceof Player) {
-							g.updatePlayer((Player) recv);//TODO: move this out before starting the thread so you don't update a player mid-match
+							
 						}
 					}
 				}

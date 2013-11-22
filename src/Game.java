@@ -24,4 +24,12 @@ public class Game {
 			}
 		}
 	}
+	
+	public boolean isAllPlayersReady() {//ie all players have placed ships
+		boolean ready = true;
+		for(Player p : players) {
+			ready = ready && p.shipsPlaced;
+		}
+		return ready;
+	}
 }
