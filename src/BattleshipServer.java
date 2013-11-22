@@ -94,18 +94,18 @@ public class BattleshipServer extends Thread {
 						if(recv instanceof Move) {
 							Move move = (Move) ois.readObject();
 							g.applyMove(move);//handles legal checks
+							
+							for(ClientHandler ch : playerList) {
+								if(ch == null) {
+									playerList.remove(ch);
+								}
+								else {
+									ch.send(g);
+								}
+							}
 						}
 						else if(recv instanceof Player) {
-							g.updatePlayer((Player) recv);
-						}
-						
-						for(ClientHandler ch : playerList) {
-							if(ch == null) {
-								playerList.remove(ch);
-							}
-							else {
-								ch.send(g);
-							}
+							g.updatePlayer((Player) recv);//TODO: move this out before starting the thread so you don't update a player mid-match
 						}
 					}
 				}

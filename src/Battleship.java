@@ -46,8 +46,7 @@ public class Battleship extends JFrame {
 		pack();
 
 		((CardLayout) getContentPane().getLayout()).show(getContentPane(), "MAIN");
-		setSize(289, 346);// the default size of the current layout of a single
-							// ChessBoard
+		setSize(289, 346);// the default size of the current layout
 	}
 
 	public void initMainScreen() {
@@ -88,7 +87,7 @@ public class Battleship extends JFrame {
 	public void startGame() {
 		connectToServer();//blocks until it receives Player and Game
 		g.initLabelClick();
-		g.drawBoard();
+		g.drawMyShips();
 		((CardLayout)getContentPane().getLayout()).show(getContentPane(), "GAME");
 		pack();
 	}
@@ -138,6 +137,7 @@ public class Battleship extends JFrame {
 
 		public void start() {
 			p = ih.getPlayer();
+			g = new GameHolder(p, self, gameScreen);
 			ih.start();
 		}
 
@@ -165,7 +165,7 @@ public class Battleship extends JFrame {
 		}
 
 		class InputHandler extends Thread {
-			private ObjectInputStream ois = null;// TODO: use public get()
+			private ObjectInputStream ois = null;	// TODO: use public get()
 													// method, remove read(). Or
 													// incorporate read() in
 													// run()
@@ -206,8 +206,7 @@ public class Battleship extends JFrame {
 				return null;
 			}
 
-			public Game read() {// TODO: incorporate this into the
-								// InputHandler.run() itself
+			public Game read() {// TODO: incorporate this into the InputHandler.run() itself
 				try {
 					return (Game) ois.readObject();
 				}

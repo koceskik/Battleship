@@ -10,8 +10,9 @@ public class Player implements Serializable {
 	private Ship submarine = new Submarine();
 	private Ship battleship = new BattleshipShip();
 	private Ship ac = new AircraftCarrier();
-	private ArrayList<Ship> shipList = new ArrayList<Ship>();
+	public ArrayList<Ship> shipList = new ArrayList<Ship>();
 	public UUID id = UUID.randomUUID();
+	public boolean shipsPlaced = false;
 	
 	public Player() {
 		shipList.add(patrolBoat);

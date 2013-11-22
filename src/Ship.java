@@ -3,14 +3,15 @@ import java.io.Serializable;
 public abstract class Ship implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	int size;
 	int x;
 	int y;
-	int hits = 0;//a binary hit system: 00101 is hit twice in the 3rd and 5th locations
+	int hitsLeft;
+	boolean[] hits;
 	boolean isVert;
 
 	public Ship(int size) {
-		this.size = size;
+		hitsLeft = size;
+		hits = new boolean[size];
 	}
 
 	public boolean setShip(int x, int y, boolean isVert) {
@@ -24,7 +25,7 @@ public abstract class Ship implements Serializable {
 		else {
 			dir = x;
 		}
-		if(dir + size > 9) {
+		if(dir + hitsLeft > 9) {
 			return false;
 		}
 		else {
@@ -36,6 +37,25 @@ public abstract class Ship implements Serializable {
 	}
 	
 	public boolean isSunk() {
-		return hits == Math.pow(2, size)-1;
+		return hitsLeft == 0;
+	}
+	
+	public boolean hit(int a, int b) {//isHit() and modifies hits[]
+		int dir;
+		if(isVert) {
+			if(x != a) return false;
+			dir = y;
+		}
+		else {
+			if(y != b) return false;
+			dir = x;
+		}
+		if(dir <= b && b < dir+hits.length) {
+			if(hits[b-dir] == false) {
+				hitsLeft--;
+				return true;
+			}
+		}
+		return false;
 	}
 }
