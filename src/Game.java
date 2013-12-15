@@ -11,8 +11,8 @@ public class Game {
 		players.add(new Player());
 	}
 	
-	public void applyMove(Move m) {
-		
+	public Move.MoveType applyMove(Move m) {
+		return Move.MoveType.MISS;
 	}
 
 	public void updatePlayer(Player p) {
@@ -31,5 +31,10 @@ public class Game {
 			ready = ready && p.shipsPlaced;
 		}
 		return ready;
+	}
+	
+	public boolean hasWinner() {
+		//TODO: actually calculate when the Game has a winner
+		return false;
 	}
 }

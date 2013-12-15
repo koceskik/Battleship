@@ -89,28 +89,24 @@ public class BattleshipServer extends Thread {
 			@Override
 			public void run() {
 				try {
-					Player p = (Player) ois.readObject();
-					g.updatePlayer(p);//updates player ship placement
-					if(g.isAllPlayersReady()) {
-						playerList.send(Move.YOUR_TURN);
+					while(!g.isAllPlayersReady()) {
+						Player p = (Player) ois.readObject();
+						g.updatePlayer(p);//updates player ship placement
 					}
-					while(true) {
-						Object recv = ois.readObject();
-						if(recv instanceof Move) {
-							Move move = (Move) ois.readObject();
-							g.applyMove(move);//handles legal checks
-							
-							for(ClientHandler ch : playerList) {
-								if(ch == null) {
-									playerList.remove(ch);
-								}
-								else {
-									ch.send(g);
-								}
+					playerList.get(0).send(Move.YOUR_TURN);
+					
+					while(!g.hasWinner()) {
+						Move move = (Move) ois.readObject();
+						Move.MoveType moveResultType = g.applyMove(move);//handles legal checks
+						Move moveResult = new Move(moveResultType);//TODO: change this to use the static Moves
+						
+						for(ClientHandler ch : playerList) {
+							if(ch == null) {
+								playerList.remove(ch);
 							}
-						}
-						else if(recv instanceof Player) {
-							
+							else {
+								ch.send(moveResult);
+							}
 						}
 					}
 				}
@@ -142,10 +138,10 @@ public class BattleshipServer extends Thread {
 			}
 		}
 
-		public boolean send(Game g) {
+		public boolean send(Move m) {
 			boolean returner = false;
 			try {
-				oos.writeObject(g);
+				oos.writeObject(m);
 				oos.reset();
 				returner = true;
 			}
