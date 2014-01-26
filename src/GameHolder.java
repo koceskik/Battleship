@@ -52,9 +52,26 @@ public class GameHolder {
 	}
 	
 	private void initPlacementPanel() {
-		JLabel text = new JLabel();
-		text.setText("Place Your Ships");
-		placementPanel.add(text);
+		placementPanel.setLayout(new GridBagLayout());
+		grid.gridy = 0;
+		grid.gridx = 0;
+		for(int i = 0;i<p.shipList.size();i++) {
+			JLabel shipPart = new JLabel();
+			shipPart.setIcon(Tile.images.get("SHIPFRONTs"));
+			placementPanel.add(shipPart, grid);
+			for(int j = 1;j<p.shipList.get(i).hitsLeft-1;j++) {
+				grid.gridx++;
+				shipPart = new JLabel();
+				shipPart.setIcon(Tile.images.get("SHIPBACKs"));
+				placementPanel.add(shipPart, grid);
+			}
+			grid.gridx++;
+			shipPart = new JLabel();
+			shipPart.setIcon(Tile.images.get("SHIPBACKs"));
+			placementPanel.add(shipPart, grid);
+			grid.gridy++;
+			grid.gridx = 0;
+		}
 		
 		JButton finishedPlacing = new JButton();
 		finishedPlacing.setText("Place Ships");
@@ -63,29 +80,9 @@ public class GameHolder {
 				((CardLayout) topPanel.getLayout()).show(topPanel, "RADAR");
 			}
 		});
-		placementPanel.add(finishedPlacing);
-		JLabel s1 = new JLabel();
-		//s1.setIcon(Tile.images.get("BWPs"));
-		s1.setBackground(Color.BLUE);
-		s1.setSize(new Dimension(16, 16));
-		placementPanel.add(s1);
-
-		JLabel s2 = new JLabel();
-		s2.setIcon(Tile.images.get("BWNs"));
-		placementPanel.add(s2);
-		
-		JLabel s3 = new JLabel();
-		s3.setIcon(Tile.images.get("BWBs"));
-		placementPanel.add(s3);
-		
-		JLabel s4 = new JLabel();
-		s4.setIcon(Tile.images.get("BWRs"));
-		placementPanel.add(s4);
-		
-		JLabel s5 = new JLabel();
-		s5.setIcon(Tile.images.get("BWKs"));
-		placementPanel.add(s5);
-		
+		grid.gridwidth = 6;
+		placementPanel.add(finishedPlacing, grid);
+		grid.gridwidth = 1;
 	}
 	
 	private void initRadarPanel() {
@@ -118,24 +115,25 @@ public class GameHolder {
 		myShipPanel.setLayout(new GridBagLayout());
 		grid.gridy = 0;
 		for(int i = 0;i<10;i++) {
-			xAxisRadarLabel[i] = new JLabel();
-			xAxisRadarLabel[i].setText(String.valueOf((char) (65+i)));
+			xAxisMyShipsLabel[i] = new JLabel();
+			xAxisMyShipsLabel[i].setText(String.valueOf((char) (65+i)));
 			grid.gridx = i+1;
-			myShipPanel.add(xAxisRadarLabel[i],grid);
+			myShipPanel.add(xAxisMyShipsLabel[i],grid);
 		}
 		for(int i = 0;i<10;i++) {
-			yAxisRadarLabel[i] = new JLabel();
-			yAxisRadarLabel[i].setText(String.valueOf(i+1));
+			yAxisMyShipsLabel[i] = new JLabel();
+			yAxisMyShipsLabel[i].setText(String.valueOf(i+1));
 			
 			grid.gridx = 0;
 			grid.gridy = i+1;
-			myShipPanel.add(yAxisRadarLabel[i],grid);
+			myShipPanel.add(yAxisMyShipsLabel[i],grid);
 			for(int j = 0;j<10;j++) {
-				radarLabel[i][j] = new JLabel();
+				myShipsLabel[i][j] = new JLabel();
+				myShipsLabel[i][j].setIcon(Tile.images.get("WATER"));
 				//label[i][j].setPreferredSize(d);//necessary to prevent the resizing onClick (adds border)
 				grid.gridx = j+1;
 				grid.gridy = i+1;
-				myShipPanel.add(radarLabel[i][j],grid);
+				myShipPanel.add(myShipsLabel[i][j],grid);
 			}
 		}
 	}

@@ -1,3 +1,4 @@
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.Serializable;
@@ -13,22 +14,17 @@ public class Tile implements Serializable {
 	public static final int scaledSize = 16;
 	public static HashMap<String,ImageIcon> images = new HashMap<String,ImageIcon>();
 	static {
-		char[] color = {'B','W'};
-		char[] piece = {'P','N','B','R','Q','K'};
-		for(char c1:color) {
-			for(char c2:color) {
-				for(char p:piece) {
-					Image i = Toolkit.getDefaultToolkit().getImage("res/" + c1+c2+p + ".png");
-					images.put("" + c1+c2+p, new ImageIcon(i));
-					images.put("" + c1+c2+p+"s", new ImageIcon(i.getScaledInstance(scaledSize, scaledSize, scaleStyle)));
-				}
-			}
-		}
-		Image b = Toolkit.getDefaultToolkit().getImage("res/B.png");
-		Image w = Toolkit.getDefaultToolkit().getImage("res/W.png");
-		images.put("B", new ImageIcon(b));
-		images.put("W", new ImageIcon(w));
-		images.put("Bs", new ImageIcon(b.getScaledInstance(scaledSize, scaledSize, scaleStyle)));
-		images.put("Ws", new ImageIcon(w.getScaledInstance(scaledSize, scaledSize, scaleStyle)));
+		Image water = Toolkit.getDefaultToolkit().getImage("res/water.png");
+		Image shipFront = Toolkit.getDefaultToolkit().getImage("res/shipFront1.png");
+		Image shipBack = Toolkit.getDefaultToolkit().getImage("res/shipBack.png");
+		//Graphics2D gr = (Graphics2D) shipBack.getGraphics();
+		//gr.rotate(Math.toRadians(90));
+		images.put("WATER", new ImageIcon(water));
+		images.put("WATERs", new ImageIcon(water.getScaledInstance(scaledSize, scaledSize, scaleStyle)));
+		images.put("SHIPFRONT", new ImageIcon(shipFront));
+		images.put("SHIPFRONTs", new ImageIcon(shipFront.getScaledInstance(scaledSize, scaledSize, scaleStyle)));
+		images.put("SHIPBACK", new ImageIcon(shipBack));
+		images.put("SHIPBACKs", new ImageIcon(shipBack.getScaledInstance(scaledSize, scaledSize, scaleStyle)));
+
 	}
 }
