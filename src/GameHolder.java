@@ -52,18 +52,40 @@ public class GameHolder {
 	}
 	
 	private void initPlacementPanel() {
-		JLabel l = new JLabel();
-		l.setText("ABC");
-		placementPanel.add(l);
+		JLabel text = new JLabel();
+		text.setText("Place Your Ships");
+		placementPanel.add(text);
 		
-		JButton b = new JButton();
-		b.setText("Place Ships");
-		b.addActionListener(new ActionListener() {
+		JButton finishedPlacing = new JButton();
+		finishedPlacing.setText("Place Ships");
+		finishedPlacing.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				((CardLayout) topPanel.getLayout()).show(topPanel, "RADAR");
 			}
 		});
-		placementPanel.add(b);
+		placementPanel.add(finishedPlacing);
+		JLabel s1 = new JLabel();
+		//s1.setIcon(Tile.images.get("BWPs"));
+		s1.setBackground(Color.BLUE);
+		s1.setSize(new Dimension(16, 16));
+		placementPanel.add(s1);
+
+		JLabel s2 = new JLabel();
+		s2.setIcon(Tile.images.get("BWNs"));
+		placementPanel.add(s2);
+		
+		JLabel s3 = new JLabel();
+		s3.setIcon(Tile.images.get("BWBs"));
+		placementPanel.add(s3);
+		
+		JLabel s4 = new JLabel();
+		s4.setIcon(Tile.images.get("BWRs"));
+		placementPanel.add(s4);
+		
+		JLabel s5 = new JLabel();
+		s5.setIcon(Tile.images.get("BWKs"));
+		placementPanel.add(s5);
+		
 	}
 	
 	private void initRadarPanel() {
