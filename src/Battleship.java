@@ -90,7 +90,7 @@ public class Battleship extends JFrame {
 		g.drawMyShips();
 		((CardLayout)getContentPane().getLayout()).show(getContentPane(), "GAME");
 		pack();
-		setSize(350, 450);// the default size of the current layout
+		setSize(325, 450);// the default size of the current layout
 	}
 	public void connectToServer() {//get client, setup I/O streams to/from client
 		try {

@@ -25,6 +25,5 @@ public class Tile implements Serializable {
 		images.put("SHIPBACKs", new ImageIcon(shipBack.getScaledInstance(scaledSize, scaledSize, scaleStyle)));
 		images.put("SHIPBODY", new ImageIcon(shipBody));
 		images.put("SHIPBODYs", new ImageIcon(shipBody.getScaledInstance(scaledSize, scaledSize, scaleStyle)));
-
 	}
 }
