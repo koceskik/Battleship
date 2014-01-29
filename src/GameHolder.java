@@ -1,18 +1,15 @@
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
-
 
 public class GameHolder {
 	private volatile Battleship.ClientHandler self = null;
@@ -62,7 +59,7 @@ public class GameHolder {
 			for(int j = 1;j<p.shipList.get(i).hitsLeft-1;j++) {
 				grid.gridx++;
 				shipPart = new JLabel();
-				shipPart.setIcon(Tile.images.get("SHIPBACKs"));
+				shipPart.setIcon(Tile.images.get("SHIPBODYs"));
 				placementPanel.add(shipPart, grid);
 			}
 			grid.gridx++;
@@ -78,6 +75,7 @@ public class GameHolder {
 		finishedPlacing.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				((CardLayout) topPanel.getLayout()).show(topPanel, "RADAR");
+				self.send(Move.LOSE);//TODO: send Player instead
 			}
 		});
 		grid.gridwidth = 6;
@@ -129,7 +127,7 @@ public class GameHolder {
 			myShipPanel.add(yAxisMyShipsLabel[i],grid);
 			for(int j = 0;j<10;j++) {
 				myShipsLabel[i][j] = new JLabel();
-				myShipsLabel[i][j].setIcon(Tile.images.get("WATER"));
+				myShipsLabel[i][j].setIcon(Tile.images.get("WATERs"));
 				//label[i][j].setPreferredSize(d);//necessary to prevent the resizing onClick (adds border)
 				grid.gridx = j+1;
 				grid.gridy = i+1;
