@@ -1,5 +1,6 @@
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,8 @@ public class GameHolder {
 	public static final Border selectedBorder = BorderFactory.createLineBorder(Color.red);
 	public static final Border legalMoveBorder = BorderFactory.createLineBorder(Color.blue);
 	public static final Border nullBorder = BorderFactory.createEmptyBorder();
+	public static final Dimension d = new Dimension(Tile.size,Tile.size);
+	public static final Dimension scaledDim = new Dimension(Tile.scaledSize,Tile.scaledSize);
 	
 	private JPanel topPanel = new JPanel();
 	private JPanel placementPanel = new JPanel();
@@ -29,7 +32,7 @@ public class GameHolder {
 	
 	private JLabel[] xAxisMyShipsLabel = new JLabel[10];
 	private JLabel[] yAxisMyShipsLabel = new JLabel[10];
-	private JLabel[][] myShipsLabel = new JLabel[10][10];
+	private ImagePanel[][] myShipsPanel = new ImagePanel[10][10];
 	private JPanel myShipPanel = new JPanel();
 	
 	private Player p;
@@ -53,18 +56,15 @@ public class GameHolder {
 		grid.gridy = 0;
 		grid.gridx = 0;
 		for(int i = 0;i<p.shipList.size();i++) {
-			JLabel shipPart = new JLabel();
-			shipPart.setIcon(Tile.images.get("SHIPFRONTs"));
+			ImagePanel shipPart = new ImagePanel(Tile.images.get("SHIPFRONT"));
 			placementPanel.add(shipPart, grid);
 			for(int j = 1;j<p.shipList.get(i).hitsLeft-1;j++) {
 				grid.gridx++;
-				shipPart = new JLabel();
-				shipPart.setIcon(Tile.images.get("SHIPBODYs"));
+				shipPart = new ImagePanel(Tile.images.get("SHIPBODY"));
 				placementPanel.add(shipPart, grid);
 			}
 			grid.gridx++;
-			shipPart = new JLabel();
-			shipPart.setIcon(Tile.images.get("SHIPBACKs"));
+			shipPart = new ImagePanel(Tile.images.get("SHIPBACK"));
 			placementPanel.add(shipPart, grid);
 			grid.gridy++;
 			grid.gridx = 0;
@@ -126,12 +126,11 @@ public class GameHolder {
 			grid.gridy = i+1;
 			myShipPanel.add(yAxisMyShipsLabel[i],grid);
 			for(int j = 0;j<10;j++) {
-				myShipsLabel[i][j] = new JLabel();
-				myShipsLabel[i][j].setIcon(Tile.images.get("WATERs"));
-				//label[i][j].setPreferredSize(d);//necessary to prevent the resizing onClick (adds border)
+				myShipsPanel[i][j] = new ImagePanel(Tile.images.get("WATER"), Tile.scaledSize, Tile.scaleStyle);
+				myShipsPanel[i][j].setPreferredSize(scaledDim);//necessary to prevent the resizing onClick (adds border)
 				grid.gridx = j+1;
 				grid.gridy = i+1;
-				myShipPanel.add(myShipsLabel[i][j],grid);
+				myShipPanel.add(myShipsPanel[i][j],grid);
 			}
 		}
 	}
@@ -148,7 +147,8 @@ public class GameHolder {
 		for(Ship s : p.shipList) {
 			for(int i = 0;i<s.hits.length;i++) {
 				if(s.isVert) {
-					radarLabel[s.x][s.y+i].setIcon(Tile.images.get("B"));
+					//radarLabel[s.x][s.y+i].setIcon(Tile.images.get("B"));
+					//radarLabel[s.x][s.y+i].setImage(Tile.images.get("B"));
 				}
 			}
 		}

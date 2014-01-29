@@ -1,29 +1,34 @@
 import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
 
 public class Tile implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private static final int scaleStyle = Image.SCALE_SMOOTH;
+	public static final int scaleStyle = Image.SCALE_SMOOTH;
 	public static final int size = 32;
 	public static final int scaledSize = 16;
-	public static HashMap<String,ImageIcon> images = new HashMap<String,ImageIcon>();
+	public static HashMap<String,BufferedImage> images = new HashMap<String,BufferedImage>();
 	static {
-		Image water = Toolkit.getDefaultToolkit().getImage("res/water.png");
-		Image shipFront = Toolkit.getDefaultToolkit().getImage("res/shipFront.png");
-		Image shipBack = Toolkit.getDefaultToolkit().getImage("res/shipBack.png");
-		Image shipBody = Toolkit.getDefaultToolkit().getImage("res/shipBody.png");
-		images.put("WATER", new ImageIcon(water));
-		images.put("WATERs", new ImageIcon(water.getScaledInstance(scaledSize, scaledSize, scaleStyle)));
-		images.put("SHIPFRONT", new ImageIcon(shipFront));
-		images.put("SHIPFRONTs", new ImageIcon(shipFront.getScaledInstance(scaledSize, scaledSize, scaleStyle)));
-		images.put("SHIPBACK", new ImageIcon(shipBack));
-		images.put("SHIPBACKs", new ImageIcon(shipBack.getScaledInstance(scaledSize, scaledSize, scaleStyle)));
-		images.put("SHIPBODY", new ImageIcon(shipBody));
-		images.put("SHIPBODYs", new ImageIcon(shipBody.getScaledInstance(scaledSize, scaledSize, scaleStyle)));
+		BufferedImage water = null;
+		BufferedImage shipFront = null;
+		BufferedImage shipBack = null;
+		BufferedImage shipBody = null;
+		try {
+			water = ImageIO.read(new File("res/water.png"));
+			shipFront = ImageIO.read(new File("res/shipFront.png"));
+			shipBack = ImageIO.read(new File("res/shipBack.png"));
+			shipBody = ImageIO.read(new File("res/shipBody.png"));
+		}
+		catch(IOException ex) {/* Ignored */}
+		images.put("WATER", water);
+		images.put("SHIPFRONT", shipFront);
+		images.put("SHIPBACK", shipBack);
+		images.put("SHIPBODY", shipBody);
 	}
 }
