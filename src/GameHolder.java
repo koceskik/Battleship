@@ -5,6 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -54,18 +56,51 @@ public class GameHolder {
 	private void initPlacementPanel() {
 		placementPanel.setLayout(new GridBagLayout());
 		grid.gridy = 0;
-		grid.gridx = 0;
+		grid.gridx = 0;		
+		GridBagConstraints shipGrid = new GridBagConstraints();
+
 		for(int i = 0;i<p.shipList.size();i++) {
+			JPanel shipWhole = new JPanel();
+			shipWhole.setLayout(new GridBagLayout());
+			shipWhole.addMouseListener(new MouseListener() {
+				@Override
+				public void mousePressed(MouseEvent arg0) {
+					
+					//TODO: this.setBorder, however, you may have to access this statically (ie make shipWhole static)
+				}
+				@Override
+				public void mouseClicked(MouseEvent arg0) {}
+				@Override
+				public void mouseEntered(MouseEvent arg0) {}
+				@Override
+				public void mouseExited(MouseEvent arg0) {}
+				@Override
+				public void mouseReleased(MouseEvent arg0) {}
+			});
+			shipGrid.gridx = 0;
+			shipGrid.gridy = 0;
+			
 			ImagePanel shipPart = new ImagePanel(Tile.images.get("SHIPFRONT"));
-			placementPanel.add(shipPart, grid);
+			shipPart.setPreferredSize(scaledDim);
+			//placementPanel.add(shipPart, grid);
+			shipWhole.add(shipPart, shipGrid);
 			for(int j = 1;j<p.shipList.get(i).hitsLeft-1;j++) {
-				grid.gridx++;
+				//grid.gridx++;
+				shipGrid.gridx++;
 				shipPart = new ImagePanel(Tile.images.get("SHIPBODY"));
-				placementPanel.add(shipPart, grid);
+				shipPart.setPreferredSize(scaledDim);
+				//placementPanel.add(shipPart, grid);
+				shipWhole.add(shipPart, shipGrid);
 			}
-			grid.gridx++;
+			//grid.gridx++;
+			shipGrid.gridx++;
 			shipPart = new ImagePanel(Tile.images.get("SHIPBACK"));
-			placementPanel.add(shipPart, grid);
+			shipPart.setPreferredSize(scaledDim);
+			shipWhole.add(shipPart, shipGrid);
+			
+			//placementPanel.add(shipPart, grid);
+			grid.gridwidth = shipGrid.gridx;
+			placementPanel.add(shipWhole, grid);
 			grid.gridy++;
 			grid.gridx = 0;
 		}
