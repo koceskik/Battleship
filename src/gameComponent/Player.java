@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import ships.AircraftCarrier;
-import ships.BattleshipShip;
+import ships.Battleship;
 import ships.Destroyer;
 import ships.PatrolBoat;
 import ships.Ship;
@@ -16,7 +16,7 @@ public class Player implements Serializable {
 	private Ship patrolBoat = new PatrolBoat();
 	private Ship destroyer = new Destroyer();
 	private Ship submarine = new Submarine();
-	private Ship battleship = new BattleshipShip();
+	private Ship battleship = new Battleship();
 	private Ship ac = new AircraftCarrier();
 	public ArrayList<Ship> shipList = new ArrayList<Ship>();
 	public UUID id = UUID.randomUUID();

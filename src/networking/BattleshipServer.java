@@ -2,7 +2,6 @@ package networking;
 import gameComponent.Game;
 import gameComponent.Move;
 import gameComponent.Player;
-import gameComponent.Move.MoveType;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,34 +13,21 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class BattleshipServer extends Thread {
+public class BattleshipServer extends Server implements ServerCallback {
 	private final int PLAYER_TOTAL = 2;
-	private Game g = null;
 	private final int port = 5533;
-	private ServerSocket server = null;
-	private ArrayList<ClientHandler> playerList = new ArrayList<ClientHandler>();
-
+	
+	private Game g = null;
+	
 	public static void main(String[] args) {
 		new BattleshipServer().start();
 	}
 
 	public BattleshipServer() {
+		super();
 		g = new Game();
 
-		//setup serversocket
-		try {
-			server = new ServerSocket(port);
-			InetAddress ip = InetAddress.getLocalHost();
-			System.out.println("Server IP address: " + ip.getHostAddress());
-			System.out.println("Listening on port " + port);
-		}
-		catch(UnknownHostException e) {
-			e.printStackTrace();
-		}
-		catch(IOException ex) {
-			System.out.println("Error can't connect to port " + port);
-			System.exit(1);
-		}
+		setupServerSocket();
 	}
 	@Override
 	public void run() {
@@ -49,8 +35,8 @@ public class BattleshipServer extends Thread {
 		while(playerList.size() < PLAYER_TOTAL) {
 			try {
 				Socket s = server.accept();
-				ClientHandler ch = new ClientHandler(s);
-				playerList.add(ch);
+				ServerSideConnection ssc = new ServerSideConnection(s);
+				playerList.add(ssc);
 				System.out.println("Accepted client socket");
 			}
 			catch(IOException ex) {
@@ -60,153 +46,24 @@ public class BattleshipServer extends Thread {
 		}
 		Collections.shuffle(playerList);
 		for(int i = 0;i<PLAYER_TOTAL;i++) {
-			ClientHandler ch = playerList.get(i);
-			ch.send(g.players.get(i));
-		}
-	}
-
-	class ClientHandler {
-		private Socket socket = null;
-		private ObjectOutputStream oos = null;
-		private InputHandler ih = null;
-
-		public ClientHandler(Socket s) {
-			this.socket = s;
-			try {
-				oos = new ObjectOutputStream(s.getOutputStream());
-				ih = new InputHandler(s);
-				ih.start();
-			}
-			catch(IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		class InputHandler extends Thread {
-			private ObjectInputStream ois = null;
-			public InputHandler(Socket s) {
-				try {
-					ois = new ObjectInputStream(s.getInputStream());
-				}
-				catch(IOException e) {
-					e.printStackTrace();
-				}
-			}
-			@Override
-			public void run() {
-				try {
-					while(!g.isAllPlayersReady()) {
-						Player p = (Player) ois.readObject();
-						g.updatePlayer(p);//updates player ship placement
-					}
-					playerList.get(0).send(Move.YOUR_TURN);
-					
-					while(!g.hasWinner()) {
-						Move move = (Move) ois.readObject();
-						Move.MoveType moveResultType = g.applyMove(move);//handles legal checks
-						Move moveResult = new Move(moveResultType);//TODO: change this to use the static Moves
-						
-						for(ClientHandler ch : playerList) {
-							if(ch == null) {
-								playerList.remove(ch);
-							}
-							else {
-								ch.send(moveResult);
-							}
-						}
-					}
-				}
-				catch(ClassNotFoundException e) {
-					//e.printStackTrace();
-				}
-				catch(IOException e) {
-					//e.printStackTrace();
-				}
-				finally {
-					if(ois != null) {
-						try {
-							ois.close();
-						}
-						catch(IOException e) {
-							e.printStackTrace();
-						}
-					}
-					if(socket != null) {
-						try {
-							socket.close();
-						}
-						catch(IOException e) {
-							e.printStackTrace();
-						}
-					}
-					playerList.remove(this);//TODO: announce to other players, perhaps allow another player to play
-				}
-			}
-		}
-
-		public boolean send(Move m) {
-			boolean returner = false;
-			try {
-				oos.writeObject(m);
-				oos.reset();
-				returner = true;
-			}
-			catch(IOException e) {
-				e.printStackTrace();
-				returner = false;
-			}
-			return returner;
-		}
-		public boolean send(Player p) {
-			boolean returner = false;
-			try {
-				oos.writeObject(p);
-				returner = true;
-			}
-			catch(IOException e) {
-				e.printStackTrace();
-				returner = false;
-			}
-			return returner;
-		}
-
-		public void close() {
-			if(oos != null) {
-				try {
-					oos.close();
-				}
-				catch(IOException e) {
-					e.printStackTrace();
-				}
-			}
-			if(socket != null) {
-				try {
-					socket.close();
-				}
-				catch(IOException e) {
-					e.printStackTrace();
-				}
-			}
+			ServerSideConnection ssc = playerList.get(i);
+			ssc.send(g.players.get(i));
 		}
 	}
 
 
-	public void closeSockets() {
-		for(ClientHandler c : playerList) {
-			if(c != null) {
-				c.close();
-			}
+	@Override
+	public void applyMove(Move m) {
+		Move.MoveType moveResultType = g.applyMove(m);//handles legal checks
+		Move moveResult = new Move(moveResultType);//TODO: change this to use the static Moves
+	}
+
+	@Override
+	public void applyPlayer(Player p) {
+		g.updatePlayer(p);
+		if(g.isAllPlayersReady()) {
+			playerList.get(0).send(Move.YOUR_TURN);
 		}
-		if(server != null) {
-			try {
-				server.close();
-			}
-			catch(IOException e) {
-				e.printStackTrace();
-			}
-		}
-		System.out.println("Server Exited");
-		System.exit(0);
 	}
 
 }

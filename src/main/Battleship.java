@@ -22,9 +22,11 @@ import networking.BattleshipServer;
 
 public class Battleship extends JFrame {
 	private static final long serialVersionUID = 1L;
+	
 	private static final int port = 5533;
-	private static String serverIP = "127.0.0.1";
+	
 	private static final String initialIP = "127.0.0.1";
+	private static String serverIP = initialIP;
 	private static volatile ClientHandler self = null;
 
 	private GridBagConstraints grid = new GridBagConstraints();

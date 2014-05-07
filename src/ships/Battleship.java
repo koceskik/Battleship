@@ -1,9 +1,9 @@
 package ships;
 
-public class BattleshipShip extends Ship {
+public class Battleship extends Ship {
 	private static final long serialVersionUID = 1L;
 	
-	public BattleshipShip() {
+	public Battleship() {
 		super(4);
 	}
 }
