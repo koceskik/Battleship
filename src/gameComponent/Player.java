@@ -1,6 +1,14 @@
+package gameComponent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
+
+import ships.AircraftCarrier;
+import ships.BattleshipShip;
+import ships.Destroyer;
+import ships.PatrolBoat;
+import ships.Ship;
+import ships.Submarine;
 
 public class Player implements Serializable {
 	private static final long serialVersionUID = 1L;

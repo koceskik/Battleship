@@ -1,3 +1,4 @@
+package ships;
 import java.io.Serializable;
 
 public abstract class Ship implements Serializable {
@@ -5,9 +6,9 @@ public abstract class Ship implements Serializable {
 	
 	int x;
 	int y;
-	int hitsLeft;
-	boolean[] hits;
-	boolean isVert;
+	public int hitsLeft;
+	public boolean[] hits;
+	public boolean isVert;
 
 	public Ship(int size) {
 		hitsLeft = size;

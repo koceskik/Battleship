@@ -1,3 +1,9 @@
+package networking;
+import gameComponent.Game;
+import gameComponent.Move;
+import gameComponent.Player;
+import gameComponent.Move.MoveType;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

@@ -1,3 +1,8 @@
+package main;
+import gameComponent.Game;
+import gameComponent.Move;
+import gameComponent.Player;
+
 import java.awt.CardLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,6 +17,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import networking.BattleshipServer;
 
 public class Battleship extends JFrame {
 	private static final long serialVersionUID = 1L;

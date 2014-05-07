@@ -1,3 +1,6 @@
+package gameComponent;
+import gameComponent.Move.MoveType;
+
 import java.util.ArrayList;
 import java.util.UUID;
 

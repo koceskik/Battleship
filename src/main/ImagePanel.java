@@ -1,6 +1,10 @@
+package main;
+import gameComponent.Tile;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+
 import javax.swing.JPanel;
 
 public class ImagePanel extends JPanel {
