@@ -44,17 +44,17 @@ public class ServerSideConnection extends Connection {
 	}
 	
 	//ServerCallback methods
-	public void removeServerSideConnection(ServerSideConnection ssc) {
+	private void removeServerSideConnection(ServerSideConnection ssc) {
 		for(ServerCallback sc : subscribedServers) {
 			sc.removeServerSideConnection(ssc);
 		}
 	}
-	public void applyMove(Move m) {
+	private void applyMove(Move m) {
 		for(ServerCallback sc : subscribedServers) {
 			sc.applyMove(m);
 		}
 	}
-	public void applyPlayer(Player p) {
+	private void applyPlayer(Player p) {
 		for(ServerCallback sc : subscribedServers) {
 			sc.applyPlayer(p);
 		}

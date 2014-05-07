@@ -4,18 +4,11 @@ import gameComponent.Move;
 import gameComponent.Player;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Collections;
 
 public class BattleshipServer extends Server implements ServerCallback {
 	private final int PLAYER_TOTAL = 2;
-	private final int port = 5533;
 	
 	private Game g = null;
 	

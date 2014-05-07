@@ -19,11 +19,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import networking.BattleshipServer;
+import networking.Connection;
 
 public class Battleship extends JFrame {
 	private static final long serialVersionUID = 1L;
-	
-	private static final int port = 5533;
 	
 	private static final String initialIP = "127.0.0.1";
 	private static String serverIP = initialIP;
@@ -38,6 +37,10 @@ public class Battleship extends JFrame {
 
 	private volatile GameHolder g = null;
 	private volatile Player p = null;
+	
+	private void setCardPane(CardPane cp) {
+		((CardLayout)getContentPane().getLayout()).show(getContentPane(), cp.toString());
+	}
 
 	public static void main(String[] args) {
 		Battleship b = new Battleship();
@@ -48,13 +51,13 @@ public class Battleship extends JFrame {
 	public Battleship() {
 		setTitle("Battleship");
 		getContentPane().setLayout(new CardLayout());
-		getContentPane().add(mainScreen, "MAIN");
-		getContentPane().add(gameScreen, "GAME");
+		getContentPane().add(mainScreen, CardPane.MAIN.toString());
+		getContentPane().add(gameScreen, CardPane.GAME.toString());
 
 		initMainScreen();
 		pack();
 
-		((CardLayout) getContentPane().getLayout()).show(getContentPane(), "MAIN");
+		setCardPane(CardPane.MAIN);
 		setSize(289, 346);// the default size of the current layout
 	}
 
@@ -97,13 +100,13 @@ public class Battleship extends JFrame {
 		connectToServer();//blocks until it receives Player and Game
 		g.initLabelClick();
 		g.drawMyShips();
-		((CardLayout)getContentPane().getLayout()).show(getContentPane(), "GAME");
+		setCardPane(CardPane.GAME);
 		pack();
 		setSize(300, 450);// the default size of the current layout
 	}
 	public void connectToServer() {//get client, setup I/O streams to/from client
 		try {
-			Socket clientSocket = new Socket(serverIP, port);
+			Socket clientSocket = new Socket(serverIP, Connection.port);
 			self = new ClientHandler(clientSocket);
 			System.out.println("Client socket accepted");
 			System.out.println("Created I/O streams");
